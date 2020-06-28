@@ -10,8 +10,8 @@ deck_cards = {
 }
 
 test_deck = {
-    "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8,
-    "9": 9, "10": 10, "J": 11, "Q": 12, "K": 13, "A": 14
+    "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,
+    "10": 10, "J": 11, "Q": 12, "K": 13, "A": 14
 }
 
 ten_decks = [
@@ -35,6 +35,7 @@ class Player:
 
     def __init__(self):
         self.score = 0
+        self.picked_cards = []
 
 
     def move(self):
@@ -46,42 +47,41 @@ class Player:
 
 
 
-game_deck = [] # deck that is laid out for the player when game starts- needed?
 
-picked_cards = [] # stores the cards the player already picked
+#picked_cards = [] # stores the cards the player already picked
 
 me = Player()
 index = -1
-while len(picked_cards) < 10:
+while len(me.picked_cards) < 10:
     #next_card = random.randint(0, len(deck)-1)
     next_card = random.choice(deck)
-    if len(picked_cards) == 0:
-        picked_cards.append(next_card)
-        print("Picked cards:", picked_cards)
+    if len(me.picked_cards) == 0:
+        me.picked_cards.append(next_card)
+        print("Picked cards:", me.picked_cards)
         index += 1
     else:
-        print("Picked cards: ", picked_cards)
+        print("Picked cards: ", me.picked_cards)
         print("Next card:", next_card)
         player_move = me.move()
         print("Player move was ", player_move)
-        if player_move == "higher" and picked_cards[index] < next_card:
+        if player_move == "higher" and me.picked_cards[index] < next_card:
             print("Yes, it was higher. Well done!")
-            picked_cards.append(next_card)
+            me.picked_cards.append(next_card)
             index += 1
-        elif player_move == "higher" and picked_cards[index] > next_card:
-            print("Oh no, bad luck! Start again!")
-            picked_cards.clear()
+        elif player_move == "higher" and me.picked_cards[index] > next_card:
+            print(f"Oh no, it was {next_card}! Start again!")
+            me.picked_cards.clear()
             index = -1
-        elif player_move in moves and picked_cards[index] == next_card:
+        elif player_move in moves and me.picked_cards[index] == next_card:
             print("Nuts, the card is the same! choosing another card for you =)")
-        elif player_move == "lower" and picked_cards[index] > next_card:
+        elif player_move == "lower" and me.picked_cards[index] > next_card:
             print("Well done, it was lower!")
-            picked_cards.append(next_card)
-            print(picked_cards)
+            me.picked_cards.append(next_card)
+            print(me.picked_cards)
             index += 1
         else:
-            print("Oh no, it was higher! Start again!")
-            picked_cards.clear()
+            print(f"Oh no, it was {next_card}! Start again!")
+            me.picked_cards.clear()
             index = -1
 # add a few more elif statements, so that the game knows what to do if the
 # player chose wrongly (eg they pick lower but the next card was higher)
