@@ -40,7 +40,7 @@ class Player:
     def move(self):
         move = ""
         while move not in moves:
-            move = input("Higher or lower?").lower()
+            move = input("Higher or lower? >> ").lower()
         return move
 
 
@@ -65,16 +65,24 @@ while len(picked_cards) < 10:
         player_move = me.move()
         print("Player move was ", player_move)
         if player_move == "higher" and picked_cards[index] < next_card:
-            print("Yes, card added. Well done!")
+            print("Yes, it was higher. Well done!")
             picked_cards.append(next_card)
             index += 1
+        elif player_move == "higher" and picked_cards[index] > next_card:
+            print("Oh no, bad luck! Start again!")
+            picked_cards.clear()
+            index = -1
         elif player_move in moves and picked_cards[index] == next_card:
             print("Nuts, the card is the same! choosing another card for you =)")
         elif player_move == "lower" and picked_cards[index] > next_card:
-            print("well done, it was lower!")
+            print("Well done, it was lower!")
             picked_cards.append(next_card)
             print(picked_cards)
             index += 1
+        else:
+            print("Oh no, it was higher! Start again!")
+            picked_cards.clear()
+            index = -1
 # add a few more elif statements, so that the game knows what to do if the
 # player chose wrongly (eg they pick lower but the next card was higher)
 # use list.clear() to empty the list if they get a card wrong.
