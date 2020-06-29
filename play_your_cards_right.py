@@ -10,10 +10,11 @@ class Player:
         self.moves = ["higher", "lower"]
         self.num_moves = 0
 
-    def move(self):
+    def move(self, *card):
         move = ""
         while move not in self.moves:
-            move = input("Higher or lower? >> ").lower()
+            move = input(Fore.RED + f"Higher or lower than a"
+                                    f" {card[0][0]}? >> ").lower()
         return move
 
 
@@ -65,7 +66,7 @@ def build_triangle(list):
 
 # Prints a message and gives a delay.
 def print_pause(msg):
-    time.sleep(0.0000000000000075)
+    time.sleep(0.75)
     print(msg)
 
 
@@ -130,8 +131,8 @@ def play_game():
         else:
             print_pause("Your cards:\n\n" + Fore.BLACK +
                         build_triangle(me.picked_cards))
-            print(Fore.RED + "Next card:", next_card[0])
-            player_move = me.move()
+            #print(Fore.RED + "Next card:", next_card[0])
+            player_move = me.move(me.picked_cards[index])
             print_pause(f"You chose {player_move}!"
                         " Let's see if you were right!")
             if player_move == "higher" and me.picked_cards[index][1] < next_card[1]:
@@ -145,6 +146,7 @@ def play_game():
                                    "#", "#", "#", "#", "#"]
                 index = -1
             elif player_move in me.moves and me.picked_cards[index][1] == next_card[1]:
+                me.num_moves -= 1
                 print_pause(f"Wow - the card was also a {next_card[0]}!"
                             " Choosing another...")
             elif player_move == "lower" and me.picked_cards[index][1] > next_card[1]:
