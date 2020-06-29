@@ -69,7 +69,7 @@ def build_triangle(list):
 
 # Prints a message and gives a delay.
 def print_pause(msg):
-    time.sleep(0.75)
+    time.sleep(0.0000000000000075)
     print(msg)
 
 
@@ -97,12 +97,24 @@ def outro(num_moves):
         print_pause("ARGH NOOOOOO!")
 
 
+def play_again():
+    ans = input("Would you like to play again [y/n]? >> ")
+    if ans == "n":
+        print_pause("Thanks for joining us, goodbye!")
+    elif ans == "y":
+        print_pause("Lovely! Welcome back!")
+        play_game()
+    else:
+        print_pause("Please choose a valid answer.")
+        play_again()
+
+
 def play_game():
     print_pause("Good evening and welcome to Play Your Cards Right, "
                 "with your favourite host....")
     print_pause("Brrruuuuuuccceeeeeee Forsyth!")
     # Change the below to whichever class you want to use.
-    me = Player()
+    me = RandomPlayer()
     index = -1
     while me.picked_cards[9] == "#":
         next_card = random.choice(list(deck.items()))
@@ -138,16 +150,15 @@ def play_game():
                                    "#", "#", "#", "#", "#"]
                 index = -1
         me.num_moves += 1
-    #print_pause("Your cards:\n" + make_line(len(me.picked_cards), me.picked_cards))
     print(build_triangle(me.picked_cards))
     print_pause("Moves taken to win: " + str(me.num_moves))
     # Different win conditions.
     outro(me.num_moves)
+    play_again()
 
-# TODO: migrate the win conditions above to their own function.
-# TODO: add a play again function
 
 play_game()
+
 # print(build_triangle(4, player_deck))
 # print(make_line(len(player_deck), player_deck))
 # print(len(player_deck), len(deck))
