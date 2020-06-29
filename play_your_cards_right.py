@@ -21,7 +21,8 @@ class Player:
 # RandomPlayer class for testing purposes.
 class RandomPlayer(Player):
 
-    def move(self):
+    def move(self, *card):
+        print(Fore.RED + f"Higher or lower than a {card[0][0]}?")
         return random.choice(self.moves)
 
 
@@ -66,7 +67,7 @@ def build_triangle(list):
 
 # Prints a message and gives a delay.
 def print_pause(msg):
-    time.sleep(0.75)
+    time.sleep(0.00000000000075)
     print(msg)
 
 
@@ -120,7 +121,7 @@ def play_game():
                 "with your favourite host....")
     print_pause("Brrruuuuuuccceeeeeee Forsyth!")
     # Change the below to whichever class you want to use.
-    me = Player()
+    me = RandomPlayer()
     index = -1
     while me.picked_cards[9] == "#":
         next_card = random.choice(list(deck.items()))
