@@ -98,7 +98,7 @@ def outro(num_moves):
 
 
 def play_game():
-    print_pause("Good evening and welcome to Higher or Lower, "
+    print_pause("Good evening and welcome to Play Your Cards Right, "
                 "with your favourite host....")
     print_pause("Brrruuuuuuccceeeeeee Forsyth!")
     # Change the below to whichever class you want to use.
