@@ -26,6 +26,29 @@ class RandomPlayer(Player):
         return random.choice(self.moves)
 
 
+class CyclePlayer(Player):
+
+    def __init__(self):
+        super().__init__()
+        self.last_move = ""
+
+    def move(self, *card):
+        if self.last_move == "":
+            move = random.choice(self.moves)
+            self.last_move = move
+            print(Fore.RED + f"Higher or lower than a {card[0][0]}?")
+            return move
+        else:
+            if self.last_move == "higher":
+                print(Fore.RED + f"Higher or lower than a {card[0][0]}?")
+                self.last_move = "lower"
+                return "lower"
+            elif self.last_move == "lower":
+                print(Fore.RED + f"Higher or lower than a {card[0][0]}?")
+                self.last_move = "higher"
+                return "higher"
+
+
 # The three functions immediately below this comment MAY be deprecated.
 def make_line_dict(length, dict):
     line = ""
@@ -67,7 +90,7 @@ def build_triangle(list):
 
 # Prints a message and gives a delay.
 def print_pause(msg):
-    time.sleep(0.00000000000075)
+    time.sleep(0.000000000000)
     print(msg)
 
 
@@ -121,7 +144,7 @@ def play_game():
                 "with your favourite host....")
     print_pause("Brrruuuuuuccceeeeeee Forsyth!")
     # Change the below to whichever class you want to use.
-    me = RandomPlayer()
+    me = CyclePlayer()
     index = -1
     while me.picked_cards[9] == "#":
         next_card = random.choice(list(deck.items()))
