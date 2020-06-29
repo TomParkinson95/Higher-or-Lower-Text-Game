@@ -1,20 +1,18 @@
 import time
 import random
 
-
+# Dictionary used for drawing cards.
 deck = {
     "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,
-    "10": 10, "J": 11, "Q": 12, "K": 13, "A": 14
+    "X": 10, "J": 11, "Q": 12, "K": 13, "A": 14
 }
-
-player_deck = ["#","#","#","#","#","#","#","#","#","#"]
 
 
 class Player:
 
     def __init__(self):
         self.score = 0
-        self.picked_cards = []
+        self.picked_cards = ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#"]
         self.moves = ["higher", "lower"]
         self.num_moves = 0
 
@@ -25,12 +23,13 @@ class Player:
             move = input("Higher or lower? >> ").lower()
         return move
 
+# RandomPlayer class for testing purposes.
 class RandomPlayer(Player):
 
     def move(self):
         return random.choice(self.moves)
 
-
+# The three functions immediately below this comment MAY be deprecated.
 def make_line_dict(length, dict):
     line = ""
     for key in dict.keys():
@@ -53,57 +52,100 @@ def make_line(length, list):
         line += str(list[i][0]) + " "
     return line + "\n"
 
-
-def build_triangle(lines, list):
-    triangle = ""
-    i = lines
-    while i > 0:
-        triangle += make_line(i, list)
-        i -= 1
+# Gives the nice card layout.
+def build_triangle(list):
+    triangle = ("{:3} {:3} {:3} {:3}\n\n"
+                "{:3} {:3} {:3}\n\n"
+                "{:3} {:3}\n\n"
+                "{:3}\n".format(list[0][0], list[1][0], list[2][0], list[3][0],
+                                list[4][0], list[5][0], list[6][0], list[7][0],
+                                list[8][0], list[9][0]))
+    # i = lines
+    # while i > 0:
+    #     triangle += make_line(i, list)
+    #     i -= 1
     return triangle
 
+
+# Prints a message and gives a delay.
 def print_pause(msg):
     time.sleep(0.75)
     print(msg)
 
 
+def outro(num_moves):
+    if num_moves < 15:
+        print_pause(f"Congratulations, you completed the game in {num_moves}"
+                    " moves, you win £10,000!")
+    elif num_moves < 20:
+        print_pause(f"Congratulations, you completed the game in {num_moves}"
+                    " moves, you win £5,000!")
+    elif num_moves < 30:
+        print_pause(f"Congratulations, you completed the game in {num_moves}"
+                    " moves, you win £1,000!")
+    elif num_moves < 50:
+        print_pause(f"Congratulations, you completed the game in {num_moves}"
+                    " moves, you win this lovely 'Took part' medal!")
+        print_pause("SMACK!")
+        print_pause("Umm... ouch. Thanks for playing!")
+    else:
+        print_pause("Hmmm... are you some random robot from Python 3 pretending to be a human?")
+        print_pause("We can sue you for that you know...")
+        print_pause("Wait... huh? What are you doing? Please don't hurt me!")
+        print_pause("We can give you all the money! Lots of money! Anything you want!")
+        print_pause("ZZZZZZZZ!")
+        print_pause("ARGH NOOOOOO!")
+
+
 def play_game():
+    print_pause("Good evening and welcome to Higher or Lower, "
+                "with your favourite host....")
+    print_pause("Brrruuuuuuccceeeeeee Forsyth!")
+    # Change the below to whichever class you want to use.
     me = Player()
     index = -1
-    while len(me.picked_cards) < 10:
+    while me.picked_cards[9] == "#":
         next_card = random.choice(list(deck.items()))
-        if len(me.picked_cards) == 0:
-            me.picked_cards.append(next_card)
-            #print(make_line(len(me.picked_cards), me.picked_cards))
+        if me.picked_cards[0] == "#":
+            me.picked_cards.remove("#")
             index += 1
+            me.picked_cards.insert(index, next_card)
         else:
-            print_pause("Your cards: " + make_line(len(me.picked_cards), me.picked_cards))
-            print("Next card:", next_card)
+            print_pause("Your cards:\n\n" + build_triangle(me.picked_cards))
+            #print("Next card:", next_card)
             player_move = me.move()
-            print("Player move was", player_move)
+            print_pause(f"You chose {player_move}! Let's see if you were right!")
             if player_move == "higher" and me.picked_cards[index][1] < next_card[1]:
-                print_pause("Yes, it was higher. Well done!")
-                me.picked_cards.append(next_card)
+                print_pause(f"It was a {next_card[0]}! Well done!")
+                me.picked_cards.remove("#")
+                me.picked_cards.insert(index + 1, next_card)
                 index += 1
             elif player_move == "higher" and me.picked_cards[index][1] > next_card[1]:
                 print_pause(f"Oh no, it was {next_card[0]}! Start again!")
-                me.picked_cards.clear()
+                me.picked_cards = ["#", "#", "#", "#", "#",
+                                   "#", "#", "#", "#", "#"]
                 index = -1
             elif player_move in me.moves and me.picked_cards[index][1] == next_card[1]:
-                print_pause("Wow - the card was the same! Choosing another...")
+                print_pause(f"Wow - the card was also a {next_card[0]}! Choosing another...")
             elif player_move == "lower" and me.picked_cards[index][1] > next_card[1]:
-                print_pause("Well done, it was lower!")
-                me.picked_cards.append(next_card)
+                print_pause(f"Well done, it was a {next_card[0]}!")
+                me.picked_cards.remove("#")
+                me.picked_cards.insert(index + 1, next_card)
                 index += 1
             else:
                 print_pause(f"Oh no, it was {next_card[0]}! Start again!")
-                me.picked_cards.clear()
+                me.picked_cards = ["#", "#", "#", "#", "#",
+                                   "#", "#", "#", "#", "#"]
                 index = -1
         me.num_moves += 1
-    print_pause("Your cards:\n" + make_line(len(me.picked_cards), me.picked_cards))
-    print(build_triangle(4, me.picked_cards))
+    #print_pause("Your cards:\n" + make_line(len(me.picked_cards), me.picked_cards))
+    print(build_triangle(me.picked_cards))
     print_pause("Moves taken to win: " + str(me.num_moves))
+    # Different win conditions.
+    outro(me.num_moves)
 
+# TODO: migrate the win conditions above to their own function.
+# TODO: add a play again function
 
 play_game()
 # print(build_triangle(4, player_deck))
