@@ -8,20 +8,25 @@ deck = {
 }
 
 
-moves = ["higher", "lower"]
-
 class Player:
 
     def __init__(self):
         self.score = 0
         self.picked_cards = []
+        self.moves = ["higher", "lower"]
+        self.num_moves = 0
 
 
     def move(self):
         move = ""
-        while move not in moves:
+        while move not in self.moves:
             move = input("Higher or lower? >> ").lower()
         return move
+
+class RandomPlayer(Player):
+
+    def move(self):
+        return random.choice(self.moves)
 
 
 def make_line(length, list):
@@ -40,11 +45,11 @@ def build_triangle(lines, list):
     return triangle
 
 def print_pause(msg):
-    time.sleep(1)
+    time.sleep(0.000000001)
     print(msg)
 
 
-me = Player()
+me = RandomPlayer()
 index = -1
 while len(me.picked_cards) < 10:
     next_card = random.choice(list(deck.items()))
@@ -53,30 +58,32 @@ while len(me.picked_cards) < 10:
         #print(make_line(len(me.picked_cards), me.picked_cards))
         index += 1
     else:
-        print("Your cards:", make_line(len(me.picked_cards), me.picked_cards))
+        print_pause("Your cards: " + make_line(len(me.picked_cards), me.picked_cards))
         print("Next card:", next_card)
         player_move = me.move()
         print("Player move was", player_move)
         if player_move == "higher" and me.picked_cards[index][1] < next_card[1]:
-            print("Yes, it was higher. Well done!")
+            print_pause("Yes, it was higher. Well done!")
             me.picked_cards.append(next_card)
             index += 1
         elif player_move == "higher" and me.picked_cards[index][1] > next_card[1]:
-            print(f"Oh no, it was {next_card[0]}! Start again!")
+            print_pause(f"Oh no, it was {next_card[0]}! Start again!")
             me.picked_cards.clear()
             index = -1
-        elif player_move in moves and me.picked_cards[index][1] == next_card[1]:
-            print("Nuts, the card is the same! choosing another card for you =)")
+        elif player_move in me.moves and me.picked_cards[index][1] == next_card[1]:
+            print_pause("Wow - the card was the same! Choosing another...")
         elif player_move == "lower" and me.picked_cards[index][1] > next_card[1]:
-            print("Well done, it was lower!")
+            print_pause("Well done, it was lower!")
             me.picked_cards.append(next_card)
             index += 1
         else:
-            print(f"Oh no, it was {next_card[0]}! Start again!")
+            print_pause(f"Oh no, it was {next_card[0]}! Start again!")
             me.picked_cards.clear()
             index = -1
-print("Your cards:\n", make_line(len(me.picked_cards), me.picked_cards))
+    me.num_moves += 1
+print_pause("Your cards:\n" + make_line(len(me.picked_cards), me.picked_cards))
 print(build_triangle(4, me.picked_cards))
+print_pause("Moves taken to win: " + str(me.num_moves))
 
 
 #for key in deck_cards.keys():
