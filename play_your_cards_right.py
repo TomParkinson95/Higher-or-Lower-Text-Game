@@ -1,21 +1,14 @@
 import time
 import random
-
-# Dictionary used for drawing cards.
-deck = {
-    "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,
-    "X": 10, "J": 11, "Q": 12, "K": 13, "A": 14
-}
+from colorama import Fore, Back, Style
 
 
 class Player:
 
     def __init__(self):
-        self.score = 0
         self.picked_cards = ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#"]
         self.moves = ["higher", "lower"]
         self.num_moves = 0
-
 
     def move(self):
         move = ""
@@ -23,11 +16,13 @@ class Player:
             move = input("Higher or lower? >> ").lower()
         return move
 
+
 # RandomPlayer class for testing purposes.
 class RandomPlayer(Player):
 
     def move(self):
         return random.choice(self.moves)
+
 
 # The three functions immediately below this comment MAY be deprecated.
 def make_line_dict(length, dict):
@@ -51,6 +46,7 @@ def make_line(length, list):
     for i in range(length):
         line += str(list[i][0]) + " "
     return line + "\n"
+
 
 # Gives the nice card layout.
 def build_triangle(list):
@@ -89,10 +85,12 @@ def outro(num_moves):
         print_pause("SMACK!")
         print_pause("Umm... ouch. Thanks for playing!")
     else:
-        print_pause("Hmmm... are you some random robot from Python 3 pretending to be a human?")
+        print_pause("Hmmm... are you some random robot from Python 3"
+                    " pretending to be a human?")
         print_pause("We can sue you for that you know...")
         print_pause("Wait... huh? What are you doing? Please don't hurt me!")
-        print_pause("We can give you all the money! Lots of money! Anything you want!")
+        print_pause("We can give you all the money! Lots of money!"
+                    " Anything you want!")
         print_pause("ZZZZZZZZ!")
         print_pause("ARGH NOOOOOO!")
 
@@ -110,11 +108,18 @@ def play_again():
 
 
 def play_game():
+    # Dictionary used for drawing cards.
+    deck = {
+        "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9,
+        "X": 10, "J": 11, "Q": 12, "K": 13, "A": 14
+    }
+    print(Fore.RED)
+    print(Back.WHITE)
     print_pause("Good evening and welcome to Play Your Cards Right, "
                 "with your favourite host....")
     print_pause("Brrruuuuuuccceeeeeee Forsyth!")
     # Change the below to whichever class you want to use.
-    me = RandomPlayer()
+    me = Player()
     index = -1
     while me.picked_cards[9] == "#":
         next_card = random.choice(list(deck.items()))
@@ -123,10 +128,12 @@ def play_game():
             index += 1
             me.picked_cards.insert(index, next_card)
         else:
-            print_pause("Your cards:\n\n" + build_triangle(me.picked_cards))
-            #print("Next card:", next_card)
+            print_pause("Your cards:\n\n" + Fore.BLACK +
+                        build_triangle(me.picked_cards))
+            print(Fore.RED + "Next card:", next_card[0])
             player_move = me.move()
-            print_pause(f"You chose {player_move}! Let's see if you were right!")
+            print_pause(f"You chose {player_move}!"
+                        " Let's see if you were right!")
             if player_move == "higher" and me.picked_cards[index][1] < next_card[1]:
                 print_pause(f"It was a {next_card[0]}! Well done!")
                 me.picked_cards.remove("#")
@@ -138,7 +145,8 @@ def play_game():
                                    "#", "#", "#", "#", "#"]
                 index = -1
             elif player_move in me.moves and me.picked_cards[index][1] == next_card[1]:
-                print_pause(f"Wow - the card was also a {next_card[0]}! Choosing another...")
+                print_pause(f"Wow - the card was also a {next_card[0]}!"
+                            " Choosing another...")
             elif player_move == "lower" and me.picked_cards[index][1] > next_card[1]:
                 print_pause(f"Well done, it was a {next_card[0]}!")
                 me.picked_cards.remove("#")
@@ -150,8 +158,9 @@ def play_game():
                                    "#", "#", "#", "#", "#"]
                 index = -1
         me.num_moves += 1
-    print(build_triangle(me.picked_cards))
-    print_pause("Moves taken to win: " + str(me.num_moves))
+    print_pause(Fore.RED + "Your cards:\n\n" +
+                Fore.BLACK + build_triangle(me.picked_cards))
+    print_pause(Fore.RED + "Moves taken to win: " + str(me.num_moves))
     # Different win conditions.
     outro(me.num_moves)
     play_again()
@@ -162,24 +171,24 @@ play_game()
 # print(build_triangle(4, player_deck))
 # print(make_line(len(player_deck), player_deck))
 # print(len(player_deck), len(deck))
-#for key in deck_cards.keys():
-#    print(key)
+# for key in deck_cards.keys():
+#     print(key)
 
-#for list in list_cards:
+# for list in list_cards:
 #    print(list[random.randint(0, len(list)-1)])
-    #print(len(list))
+#    print(len(list))
 
 #
 # first - we need to generate ten random cards from the dictionary (or list?)
 #
 #
-# the game should give an output at the beginning like this (to represent the cards):
+# give an output at the beginning like this (to represent the cards):
 #
 #   # # # #
 #     # # #
 #       # #
 #         #
-# each of these represent a card. as a card is turned over, mark it with the indicator:
+# as a card is turned over, mark it with the indicator:
 #
 #   K Q 8 #
 #     # # #
