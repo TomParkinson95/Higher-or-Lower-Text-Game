@@ -90,25 +90,32 @@ def build_triangle(list):
 
 # Prints a message and gives a delay.
 def print_pause(msg):
-    time.sleep(0.000000000000)
+    #time.sleep(0.75)
     print(msg)
 
 
 def outro(num_moves):
-    if num_moves < 15:
+    if num_moves < 20:
         print_pause(f"Congratulations, you completed the game in {num_moves}"
                     " moves, you win £10,000!")
-    elif num_moves < 20:
+    elif num_moves < 25:
         print_pause(f"Congratulations, you completed the game in {num_moves}"
                     " moves, you win £5,000!")
-    elif num_moves < 30:
+    elif num_moves < 35:
         print_pause(f"Congratulations, you completed the game in {num_moves}"
                     " moves, you win £1,000!")
-    elif num_moves < 50:
+    elif num_moves < 100:
         print_pause(f"Congratulations, you completed the game in {num_moves}"
                     " moves, you win this lovely 'Took part' medal!")
         print_pause("SMACK!")
         print_pause("Umm... ouch. Thanks for playing!")
+    elif num_moves < 600:
+        print_pause("Okay this is a little suspicious... ")
+        print_pause("Are you a Cycle robot from Python 3?")
+        print_pause("Zzzzzzt.")
+        print_pause("#Pedalling sound#")
+        print_pause("NOOO PLEASE DON'T CYCLE OVER MEEEE!")
+        print_pause("AARRRGGHHHH NOOOOOOOO!")
     else:
         print_pause("Hmmm... are you some random robot from Python 3"
                     " pretending to be a human?")
