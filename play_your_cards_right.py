@@ -5,6 +5,7 @@ import random
 from colorama import Fore, Back, Style
 
 
+# Default Player class, which is used by a human player.
 class Player:
 
     def __init__(self):
@@ -15,8 +16,9 @@ class Player:
     def move(self, *card):
         move = ""
         while move not in self.moves:
-            move = input(Fore.RED + f"Higher or lower than {check_vowels(card)}"
-                                    f" {card[0][0]}? >> ").lower()
+            move = input(Fore.RED + "Higher or lower than"
+                                    f" {check_vowels(card)} "
+                                    f"{card[0][0]}? >> ").lower()
         return move
 
 
@@ -24,10 +26,12 @@ class Player:
 class RandomPlayer(Player):
 
     def move(self, *card):
-        print(Fore.RED + f"Higher or lower than {check_vowels(card)} {card[0][0]}?")
+        print(Fore.RED + "Higher or lower than "
+                         f"{check_vowels(card)} {card[0][0]}?")
         return random.choice(self.moves)
 
 
+# CyclePlayer - different playing stategy - cycles through all moves.
 class CyclePlayer(Player):
 
     def __init__(self):
@@ -38,15 +42,18 @@ class CyclePlayer(Player):
         if self.last_move == "":
             move = random.choice(self.moves)
             self.last_move = move
-            print(Fore.RED + f"Higher or lower than {check_vowels(card)} {card[0][0]}?")
+            print(Fore.RED + "Higher or lower than "
+                             f"{check_vowels(card)} {card[0][0]}?")
             return move
         else:
             if self.last_move == "higher":
-                print(Fore.RED + f"Higher or lower than {check_vowels(card)} {card[0][0]}?")
+                print(Fore.RED + "Higher or lower than "
+                                 f"{check_vowels(card)} {card[0][0]}?")
                 self.last_move = "lower"
                 return "lower"
             elif self.last_move == "lower":
-                print(Fore.RED + f"Higher or lower than {check_vowels(card)} {card[0][0]}?")
+                print(Fore.RED + f"Higher or lower than "
+                                 f"{check_vowels(card)} {card[0][0]}?")
                 self.last_move = "higher"
                 return "higher"
 
@@ -155,26 +162,31 @@ def play_game():
             print_pause(f"You chose {player_move}!"
                         " Let's see if you were right!")
             if player_move == "higher" and me.picked_cards[index][1] < next_card[1]:
-                print_pause(f"It was {check_vowels(next_card)} {next_card[0]}! Well done!")
+                print_pause(f"It was {check_vowels(next_card)} {next_card[0]}!"
+                            " Well done!")
                 me.picked_cards.remove("#")
                 me.picked_cards.insert(index + 1, next_card)
                 index += 1
             elif player_move == "higher" and me.picked_cards[index][1] > next_card[1]:
-                print_pause(f"Oh no, it was {check_vowels(next_card)} {next_card[0]}! Start again!")
+                print_pause(f"Oh no, it was {check_vowels(next_card)} "
+                            f"{next_card[0]}! Start again!")
                 me.picked_cards = ["#", "#", "#", "#", "#",
                                    "#", "#", "#", "#", "#"]
                 index = -1
             elif player_move in me.moves and me.picked_cards[index][1] == next_card[1]:
                 me.num_moves -= 1
-                print_pause(f"Wow - the card was also {check_vowels(next_card)} {next_card[0]}!"
+                print_pause("Wow - the card was also "
+                            f"{check_vowels(next_card)} {next_card[0]}!"
                             " Choosing another...")
             elif player_move == "lower" and me.picked_cards[index][1] > next_card[1]:
-                print_pause(f"Well done, it was {check_vowels(next_card)} {next_card[0]}!")
+                print_pause(f"Well done, it was {check_vowels(next_card)} "
+                            f"{next_card[0]}!")
                 me.picked_cards.remove("#")
                 me.picked_cards.insert(index + 1, next_card)
                 index += 1
             else:
-                print_pause(f"Oh no, it was {check_vowels(next_card)} {next_card[0]}! Start again!")
+                print_pause(f"Oh no, it was {check_vowels(next_card)} "
+                            f"{next_card[0]}! Start again!")
                 me.picked_cards = ["#", "#", "#", "#", "#",
                                    "#", "#", "#", "#", "#"]
                 index = -1
