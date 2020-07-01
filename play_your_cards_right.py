@@ -1,3 +1,5 @@
+# Play Your Cards Right, Copyright Tom Parkinson 2020.
+
 import time
 import random
 from colorama import Fore, Back, Style
@@ -13,7 +15,7 @@ class Player:
     def move(self, *card):
         move = ""
         while move not in self.moves:
-            move = input(Fore.RED + f"Higher or lower than a"
+            move = input(Fore.RED + f"Higher or lower than {check_vowels(card)}"
                                     f" {card[0][0]}? >> ").lower()
         return move
 
@@ -22,7 +24,7 @@ class Player:
 class RandomPlayer(Player):
 
     def move(self, *card):
-        print(Fore.RED + f"Higher or lower than a {card[0][0]}?")
+        print(Fore.RED + f"Higher or lower than {check_vowels(card)} {card[0][0]}?")
         return random.choice(self.moves)
 
 
@@ -36,41 +38,27 @@ class CyclePlayer(Player):
         if self.last_move == "":
             move = random.choice(self.moves)
             self.last_move = move
-            print(Fore.RED + f"Higher or lower than a {card[0][0]}?")
+            print(Fore.RED + f"Higher or lower than {check_vowels(card)} {card[0][0]}?")
             return move
         else:
             if self.last_move == "higher":
-                print(Fore.RED + f"Higher or lower than a {card[0][0]}?")
+                print(Fore.RED + f"Higher or lower than {check_vowels(card)} {card[0][0]}?")
                 self.last_move = "lower"
                 return "lower"
             elif self.last_move == "lower":
-                print(Fore.RED + f"Higher or lower than a {card[0][0]}?")
+                print(Fore.RED + f"Higher or lower than {check_vowels(card)} {card[0][0]}?")
                 self.last_move = "higher"
                 return "higher"
 
 
-# The three functions immediately below this comment MAY be deprecated.
-def make_line_dict(length, dict):
-    line = ""
-    for key in dict.keys():
-        line += key + " "
-    return line + "\n"
-
-
-def build_triangle_dict(lines, dict):
-    triangle = ""
-    i = lines
-    while i > 0:
-        triangle += make_line_dict(i, dict)
-        i -= 1
-    return triangle
-
-
-def make_line(length, list):
-    line = ""
-    for i in range(length):
-        line += str(list[i][0]) + " "
-    return line + "\n"
+# Checks the key of the card and determines whether to use "a" or "an".
+def check_vowels(card):
+    aan = ""
+    if "A" in card[0][0] or "8" in card[0][0]:
+        aan = "an"
+    else:
+        aan = "a"
+    return aan
 
 
 # Gives the nice card layout.
@@ -90,7 +78,7 @@ def build_triangle(list):
 
 # Prints a message and gives a delay.
 def print_pause(msg):
-    #time.sleep(0.75)
+    time.sleep(0.75)
     print(msg)
 
 
@@ -151,7 +139,7 @@ def play_game():
                 "with your favourite host....")
     print_pause("Brrruuuuuuccceeeeeee Forsyth!")
     # Change the below to whichever class you want to use.
-    me = CyclePlayer()
+    me = Player()
     index = -1
     while me.picked_cards[9] == "#":
         next_card = random.choice(list(deck.items()))
@@ -162,31 +150,31 @@ def play_game():
         else:
             print_pause("Your cards:\n\n" + Fore.BLACK +
                         build_triangle(me.picked_cards))
-            #print(Fore.RED + "Next card:", next_card[0])
+            # Debug statement -> print(Fore.RED + "Next card:", next_card[0])
             player_move = me.move(me.picked_cards[index])
             print_pause(f"You chose {player_move}!"
                         " Let's see if you were right!")
             if player_move == "higher" and me.picked_cards[index][1] < next_card[1]:
-                print_pause(f"It was a {next_card[0]}! Well done!")
+                print_pause(f"It was {check_vowels(next_card)} {next_card[0]}! Well done!")
                 me.picked_cards.remove("#")
                 me.picked_cards.insert(index + 1, next_card)
                 index += 1
             elif player_move == "higher" and me.picked_cards[index][1] > next_card[1]:
-                print_pause(f"Oh no, it was {next_card[0]}! Start again!")
+                print_pause(f"Oh no, it was {check_vowels(next_card)} {next_card[0]}! Start again!")
                 me.picked_cards = ["#", "#", "#", "#", "#",
                                    "#", "#", "#", "#", "#"]
                 index = -1
             elif player_move in me.moves and me.picked_cards[index][1] == next_card[1]:
                 me.num_moves -= 1
-                print_pause(f"Wow - the card was also a {next_card[0]}!"
+                print_pause(f"Wow - the card was also {check_vowels(next_card)} {next_card[0]}!"
                             " Choosing another...")
             elif player_move == "lower" and me.picked_cards[index][1] > next_card[1]:
-                print_pause(f"Well done, it was a {next_card[0]}!")
+                print_pause(f"Well done, it was {check_vowels(next_card)} {next_card[0]}!")
                 me.picked_cards.remove("#")
                 me.picked_cards.insert(index + 1, next_card)
                 index += 1
             else:
-                print_pause(f"Oh no, it was {next_card[0]}! Start again!")
+                print_pause(f"Oh no, it was {check_vowels(next_card)} {next_card[0]}! Start again!")
                 me.picked_cards = ["#", "#", "#", "#", "#",
                                    "#", "#", "#", "#", "#"]
                 index = -1
