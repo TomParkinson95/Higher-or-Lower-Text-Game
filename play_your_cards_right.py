@@ -161,24 +161,28 @@ def play_game():
             player_move = me.move(me.picked_cards[index])
             print_pause(f"You chose {player_move}!"
                         " Let's see if you were right!")
-            if player_move == "higher" and me.picked_cards[index][1] < next_card[1]:
+            if (player_move == "higher" and
+               me.picked_cards[index][1] < next_card[1]):
                 print_pause(f"It was {check_vowels(next_card)} {next_card[0]}!"
                             " Well done!")
                 me.picked_cards.remove("#")
                 me.picked_cards.insert(index + 1, next_card)
                 index += 1
-            elif player_move == "higher" and me.picked_cards[index][1] > next_card[1]:
+            elif (player_move == "higher" and
+                  me.picked_cards[index][1] > next_card[1]):
                 print_pause(f"Oh no, it was {check_vowels(next_card)} "
                             f"{next_card[0]}! Start again!")
                 me.picked_cards = ["#", "#", "#", "#", "#",
                                    "#", "#", "#", "#", "#"]
                 index = -1
-            elif player_move in me.moves and me.picked_cards[index][1] == next_card[1]:
+            elif (player_move in me.moves and
+                  me.picked_cards[index][1] == next_card[1]):
                 me.num_moves -= 1
                 print_pause("Wow - the card was also "
                             f"{check_vowels(next_card)} {next_card[0]}!"
                             " Choosing another...")
-            elif player_move == "lower" and me.picked_cards[index][1] > next_card[1]:
+            elif (player_move == "lower" and
+                  me.picked_cards[index][1] > next_card[1]):
                 print_pause(f"Well done, it was {check_vowels(next_card)} "
                             f"{next_card[0]}!")
                 me.picked_cards.remove("#")
@@ -194,28 +198,15 @@ def play_game():
     print_pause(Fore.RED + "Your cards:\n\n" +
                 Fore.BLACK + build_triangle(me.picked_cards))
     print_pause(Fore.RED + "Moves taken to win: " + str(me.num_moves))
-    # Different win conditions.
+    # Different win conditions are call based on the value of me.num_moves.
     outro(me.num_moves)
     play_again()
 
 
 play_game()
 
-# print(build_triangle(4, player_deck))
-# print(make_line(len(player_deck), player_deck))
-# print(len(player_deck), len(deck))
-# for key in deck_cards.keys():
-#     print(key)
 
-# for list in list_cards:
-#    print(list[random.randint(0, len(list)-1)])
-#    print(len(list))
-
-#
-# first - we need to generate ten random cards from the dictionary (or list?)
-#
-#
-# give an output at the beginning like this (to represent the cards):
+# TODO: Work on displaying the cards using right alignment, as below.
 #
 #   # # # #
 #     # # #
