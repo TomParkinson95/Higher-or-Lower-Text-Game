@@ -60,12 +60,10 @@ class CyclePlayer(Player):
 
 # Checks the key of the card and determines whether to use "a" or "an".
 def check_vowels(card):
-    aan = ""
     if "A" in card[0][0] or "8" in card[0][0]:
-        aan = "an"
+        return "an"
     else:
-        aan = "a"
-    return aan
+        return "a"
 
 
 # Gives the nice card layout.
@@ -105,15 +103,15 @@ def outro(num_moves):
         print_pause("SMACK!")
         print_pause("Umm... ouch. Thanks for playing!")
     elif num_moves < 600:
-        print_pause("Okay this is a little suspicious... ")
+        print_pause(f"{num_moves} moves... okay this is a little suspicious... ")
         print_pause("Are you a Cycle robot from Python 3?")
         print_pause("Zzzzzzt.")
         print_pause("#Pedalling sound#")
         print_pause("NOOO PLEASE DON'T CYCLE OVER MEEEE!")
         print_pause("AARRRGGHHHH NOOOOOOOO!")
     else:
-        print_pause("Hmmm... are you some random robot from Python 3"
-                    " pretending to be a human?")
+        print_pause(f"{num_moves} moves? Hmmm... are you some random robot "
+                    "from Python 3 pretending to be a human?")
         print_pause("We can sue you for that you know...")
         print_pause("Wait... huh? What are you doing? Please don't hurt me!")
         print_pause("We can give you all the money! Lots of money!"
