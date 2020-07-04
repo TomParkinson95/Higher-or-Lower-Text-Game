@@ -24,8 +24,8 @@ class Player:
         move = ""
         while move not in self.moves:
             move = input(Fore.RED + "Higher or lower than"
-                                    f" {check_vowels(card)} "
-                                    f"{check_values(card)}? >> ").lower()
+                                  + f" {check_vowels(card)} "
+                                  + f"{check_values(card)}? >> ").lower()
         return move
 
 
@@ -34,7 +34,7 @@ class RandomPlayer(Player):
 
     def move(self, card):
         print(Fore.RED + "Higher or lower than "
-                         f"{check_vowels(card)} {check_values(card)}?")
+                       + f"{check_vowels(card)} {check_values(card)}?")
         return random.choice(self.moves)
 
 
@@ -50,17 +50,17 @@ class CyclePlayer(Player):
             move = random.choice(self.moves)
             self.last_move = move
             print(Fore.RED + "Higher or lower than "
-                             f"{check_vowels(card)} {check_values(card)}?")
+                           + f"{check_vowels(card)} {check_values(card)}?")
             return move
         else:
             if self.last_move == "higher":
                 print(Fore.RED + "Higher or lower than "
-                                 f"{check_vowels(card)} {check_values(card)}?")
+                               + f"{check_vowels(card)} {check_values(card)}?")
                 self.last_move = "lower"
                 return "lower"
             elif self.last_move == "lower":
                 print(Fore.RED + f"Higher or lower than "
-                                 f"{check_vowels(card)} {check_values(card)}?")
+                               + f"{check_vowels(card)} {check_values(card)}?")
                 self.last_move = "higher"
                 return "higher"
 
@@ -69,14 +69,7 @@ class CyclePlayer(Player):
 def check_values(card):
     card = list(card)
     if card[1] > 10:
-        if card[1] == 11:
-            return "J"
-        elif card[1] == 12:
-            return "Q"
-        elif card[1] == 13:
-            return "K"
-        elif card[1] == 14:
-            return "A"
+        return ['J', 'Q', 'K', 'A'][card[1] - 11]
     else:
         return str(card[1])
 
@@ -84,23 +77,20 @@ def check_values(card):
 # Checks the key of the card and determines whether to use "a" or "an".
 def check_vowels(card):
     # input(f"In check vowels, the card is: {card}") <- debug for check_vowels
-    if card[1] == 8 or card[1] == 14:
-        return "an"
-    else:
-        return "a"
+    return 'a' + 'n' * (card[1] in [8, 14])
 
 
 # Gives the nice card layout.
 # String layout as used in the function is to help visualise how the cards
 # will be printed.
 def build_triangle(list):
-    return ("{:3} {:3} {:3} {:3}\n\n"
-            "    {:3} {:3} {:3}\n\n"
-            "        {:3} {:3}\n\n"
-            "            {:3}\n".format(list[0][0], list[1][0], list[2][0],
+    return "{:3} {:3} {:3} {:3}\n\n"
+            + "    {:3} {:3} {:3}\n\n"
+            + "        {:3} {:3}\n\n"
+            + "            {:3}\n".format(list[0][0], list[1][0], list[2][0],
                                         list[3][0], list[4][0], list[5][0],
                                         list[6][0], list[7][0], list[8][0],
-                                        list[9][0]))
+                                        list[9][0])
 
 
 # Prints a message and gives a delay.
