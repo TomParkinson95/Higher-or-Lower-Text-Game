@@ -15,7 +15,8 @@ from colorama import Fore, Back, Style
 class Player:
 
     def __init__(self):
-        self.picked_cards = ["🂠","🂠","🂠","🂠","🂠","🂠","🂠","🂠","🂠","🂠"]
+        self.picked_cards = ["🂠", "🂠", "🂠", "🂠", "🂠", "🂠", "🂠", "🂠",
+                             "🂠", "🂠"]
         self.moves = ["higher", "lower"]
         self.num_moves = 0
 
@@ -93,13 +94,13 @@ def check_vowels(card):
 # String layout as used in the function is to help visualise how the cards
 # will be printed.
 def build_triangle(list):
-    return  ("{:3} {:3} {:3} {:3}\n\n"
-             "    {:3} {:3} {:3}\n\n"
-             "        {:3} {:3}\n\n"
-             "            {:3}\n".format(list[0][0], list[1][0], list[2][0],
-                                         list[3][0], list[4][0], list[5][0],
-                                         list[6][0], list[7][0], list[8][0],
-                                         list[9][0]))
+    return ("{:3} {:3} {:3} {:3}\n\n"
+            "    {:3} {:3} {:3}\n\n"
+            "        {:3} {:3}\n\n"
+            "            {:3}\n".format(list[0][0], list[1][0], list[2][0],
+                                        list[3][0], list[4][0], list[5][0],
+                                        list[6][0], list[7][0], list[8][0],
+                                        list[9][0]))
 
 
 # Prints a message and gives a delay.
@@ -166,7 +167,7 @@ def play_game():
         "🃒": 2, "🃓": 3, "🃔": 4, "🃕": 5, "🃖": 6, "🃗": 7, "🃘": 8, "🃙": 9,
         "🃚": 10, "🃛": 11, "🃝": 12, "🃞": 13, "🃑": 14
     }
-    blank_deck = ["🂠","🂠","🂠","🂠","🂠","🂠","🂠","🂠","🂠","🂠"]
+    blank_deck = ["🂠", "🂠", "🂠", "🂠", "🂠", "🂠", "🂠", "🂠", "🂠", "🂠"]
     print(Fore.RED)
     print(Back.WHITE)
     print_pause("Good evening and welcome to Play Your Cards Right, "
